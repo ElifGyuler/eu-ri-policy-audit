@@ -122,8 +122,6 @@ sedia-api-fetchers>=1.0.0
 tqdm>=4.65.0
 ```
 
-Full dependency list: `requirements.txt`
-
 ---
 
 ## Key Methodological Notes
