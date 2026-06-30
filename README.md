@@ -86,9 +86,6 @@ cd eu-ri-policy-audit
 micromamba create -n sedia python=3.11
 micromamba activate sedia
 
-# Install dependencies
-pip install -r requirements.txt
-
 # Download data from Zenodo
 # Place eu_clean_UPDATED.csv in ./data/
 ```
