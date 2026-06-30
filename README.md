@@ -52,9 +52,7 @@ Using 58,876 project-level records from the SEDIA API (EU Funding & Tenders Port
 │   └── verify_russia_annual.py  # Russia series verification
 ├── data/                        # Data files (see Data Availability below)
 │   ├── eu_clean_UPDATED.csv     # Processed SEDIA dataset [Zenodo]
-│   └── eu_edf2025_parsed.csv    # EDF 2025 supplementary data [Zenodo]
-├── figures/                     # Generated figures (output directory)
-├── requirements.txt             # Python dependencies
+│   └── eu_edf2025_parsed.csv    # EDF 2025 supplementary data [Zenodo]             
 └── README.md
 ```
 
