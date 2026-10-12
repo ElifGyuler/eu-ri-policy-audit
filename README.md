@@ -1,182 +1,129 @@
-# The Self-Defeating Dependency Trap
-## A Computational Policy Audit of EU Research and Innovation Funding to Israel and Ukraine (2014–2026)
+# EU R&I Policy Audit
+## Strategic autonomy, foreign control, and EU research funding, 2014–2026
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.21084273)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21084273.svg)](https://doi.org/10.5281/zenodo.21084273)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://python.org)
 
 **Author:** Elif Gyuler  
-**Programme:** Master Applied Data Science, Utrecht University  
-**Submission Date:** 20 May 2026
+**Institution:** Utrecht University  
+**Research area:** EU research policy, strategic autonomy, defence funding, computational policy analysis
 
 ---
 
 ## Overview
 
-This repository contains the full reproducible analysis pipeline for the thesis *"The Self-Defeating Dependency Trap: How Technological Reliance Constrains EU Normative Power in Research Funding to Israel and Ukraine, 2014–2026."*
+This repository contains the reproducible research materials and public-facing outputs for a computational audit of EU research and defence funding to Israel and Ukraine from 2014–2026.
 
-**Research Question:** Is the EU a genuine normative power, or does technological dependency make acting on its own values institutionally difficult?
+The project asks why third-country research partnerships operating under comparable formal programme rules can produce markedly different funding and governance outcomes. Israel and Ukraine are compared because both entered Horizon Europe association within two months under the same formal participation framework. Russia is used separately as a benchmark for the EU's demonstrated capacity to restrict research cooperation rapidly; it is not treated as a substantive comparator to either country.
 
-Using 58,876 project-level records from the SEDIA API (EU Funding & Tenders Portal), this study compares EU R&I funding to Israel and Ukraine under a Most Similar Systems Design (MSSD) — two countries with identical third-country association status, both experiencing active armed conflict during the study period.
+The analysis treats **geopolitical alignment, sectoral composition, historical partnership depth, and technological interdependence as competing or complementary explanations**. It does not assume that a common legal framework makes the conflicts themselves equivalent.
 
-### Key Findings
+### Public outputs
 
-| Hypothesis | Finding |
-|-----------|---------|
-| **H1a** (Volume asymmetry) | Israel receives **4.7×** more projects than Ukraine (2,474 vs 523) across all programme years |
-| **H1b** (Temporal elasticity) | Zero statistical response to Gaza War threshold (t=−0.218, p=0.845) vs. 7-day Russian suspension |
-| **H2a** (Portfolio quality) | Israeli portfolios diverge from EU normative vocabulary by Δ=0.191 (permutation test p<0.0001) |
-| **H2b** (Proxy mechanism) | A single Greek-registered entity (Intracom Defense AE, 94.5% IAI-owned) coordinates 94.4% of Israeli EDF projects, controlling €438.4M in project budgets |
+- **Policy brief:** [Why Does the EU Fund Israeli Defence-Linked Research?](POLICY_BRIEF.md)
+- **Interactive research brief:** [index.html](index.html)
+- **Replication notebook:** [eu_ri_policy_audit.ipynb](eu_ri_policy_audit.ipynb)
+- **Data & code archive:** [Zenodo DOI 10.5281/zenodo.21084273](https://doi.org/10.5281/zenodo.21084273)
 
 ---
 
-## Repository Structure
+## Key findings
 
-```
+| Area | Finding |
+|---|---|
+| **Participation volume** | The corrected dataset contains **2,474 Israel-linked projects** and **523 Ukraine-linked projects**, a project-count ratio of about **4.7×** across the study dataset. |
+| **Annual continuity** | A comparison of **2019–2021** with **2022–2024** finds no statistically detectable difference in Israeli annual approvals in this specification. Because the second period begins before October 2023, this is a broad period comparison, **not a causal pre/post estimate of the October 2023 events**. |
+| **Portfolio text analysis** | Israeli-linked project-title corpora sit further from the same EU policy-language baseline than Ukrainian corpora in the TF-IDF analysis. This is a descriptive portfolio difference and does not by itself establish why funding decisions were made. |
+| **Foreign control / EDF** | The audit identifies **18 EDF projects involving EU-registered entities under Israeli ownership**. Intracom Defense is identified as 94.5% owned and 100% voting-controlled by Israel Aerospace Industries. EDF Article 9 contains conditions concerning control by non-associated third countries and permits derogations where approved guarantees are provided; the public project records reviewed here do not disclose the content of such guarantees. |
+
+The strategic-autonomy argument is therefore deliberately conditional: international cooperation may generate capability and technology-transfer benefits, but those gains should be assessed against whether ownership, control, and underlying external dependencies actually shift over time.
+
+---
+
+## Data and methods
+
+The project analyses **58,876 project-level records** drawn from the European Commission's SEDIA / Funding & Tenders infrastructure, covering Horizon 2020, Horizon Europe, Digital Europe and the European Defence Fund. The workflow combines:
+
+- project-level descriptive and comparative analysis;
+- participant and country-code validation;
+- Welch's t-test, Mann–Whitney U and Cohen's *d* for the annual-period comparison;
+- TF-IDF cosine-distance analysis with permutation, split-half placebo and parameter-sensitivity checks;
+- legal-institutional analysis of EU research and defence-funding rules; and
+- corporate-ownership cross-referencing for EDF participants.
+
+### Important interpretation limits
+
+- The annual 2019–2021 vs 2022–2024 comparison is **not** an event-specific October 2023 treatment estimate.
+- Project-title text analysis measures linguistic distance from a policy corpus; it does not establish project outcomes, end-use, legality, or intent.
+- Similar association status does not eliminate geopolitical alignment or other political differences between cases.
+- Foreign ownership is not presented as proof that every project output or every euro is transferred to a parent company.
+
+---
+
+## Repository structure
+
+```text
 .
-├── eu_ri_policy_audit.ipynb     # Main analysis notebook
-├── figure_scripts/              # Individual figure scripts
-│   ├── figure_5_1c_mixed_status_corrected.py
-│   ├── figure_5_3_combined_fixed.py
-│   ├── figure_5_3c_ratio_fixed.py
-│   ├── figure_5_3c_institutional_response.py
-│   ├── figure_5_4a_panela_corrected.py
-│   ├── figure_5_4bc_diverging_FINAL.py
-│   ├── figure_5_4d_military_terms_v3.py
-│   ├── figure_5_5a1_coordinator_donut.py
-│   ├── figure_5_5a2_funding_comparison_v2.py
-│   ├── figure_5_5a5_timeline_v2.py
-│   └── figure_5_5ac_ER_style_corrected.py
-├── validation/                  # Statistical validation scripts
-│   ├── validation_suite.py      # Full validation (permutation, placebo, sensitivity)
-│   └── verify_russia_annual.py  # Russia series verification
-├── data/                        # Data files (see Data Availability below)
-│   ├── eu_clean_UPDATED.csv     # Processed SEDIA dataset [Zenodo]
-│   └── eu_edf2025_parsed.csv    # EDF 2025 supplementary data [Zenodo]             
-└── README.md
+├── README.md                   # Project overview and interpretation notes
+├── POLICY_BRIEF.md             # Text version of the final policy brief
+├── eu_ri_policy_audit.ipynb    # Main replication notebook
+├── index.html                  # Interactive public-facing research brief
+├── style.css                   # Interactive site styles
+├── data.js                     # Data used by the interactive visualisations
+├── app.js                      # Interactive visualisation logic
+└── LICENSE                     # MIT license for repository code
 ```
 
----
-
-## Data Availability
-
-| Dataset | Source | Access |
-|---------|--------|--------|
-| Raw SEDIA API data | EU Funding & Tenders Portal | Public API |
-| Processed dataset (`eu_clean_UPDATED.csv`) | This study | Zenodo DOI: [placeholder] |
-| EDF 2025 factsheets (59 PDFs) | DG DEFIS website | [defence-industry-space.ec.europa.eu](https://defence-industry-space.ec.europa.eu) |
-| EU normative baseline corpus | EUR-Lex | Appendix A of thesis |
-
-**Note on SEDIA API:** The API requires the `sedia-api-fetchers` package (Swarts, 2025). Data collection used adaptive temporal partitioning to stay within the 10,000-record pagination limit. The processed dataset on Zenodo is recommended for direct replication.
-
-**Note on EDF 2025:** The EDF 2025 call (57 projects, €1.07B, announced 15 April 2026) was not registered in SEDIA at collection time. A supplementary manual extraction from 59 DG DEFIS factsheet PDFs was conducted to check for new Intracom Defense or OIP Sensor Systems participation; no confirmed proxy-entity projects were identified. The original factsheets are publicly available at [defence-industry-space.ec.europa.eu](https://defence-industry-space.ec.europa.eu).
+The complete replication archive is also preserved on Zenodo at the DOI above.
 
 ---
 
-## Installation
+## Reproducibility
+
+Clone the repository and open the notebook in a Python 3.11 environment:
 
 ```bash
-# Clone repository
-git clone https://github.com/elifgyuler/eu-ri-policy-audit.git
+git clone https://github.com/ElifGyuler/eu-ri-policy-audit.git
 cd eu-ri-policy-audit
-
-# Create environment (micromamba recommended)
-micromamba create -n sedia python=3.11
-micromamba activate sedia
-
-# Download data from Zenodo
-# Place eu_clean_UPDATED.csv in ./data/
-```
-
----
-
-## Usage
-
-```bash
-# Run main analysis
 jupyter notebook eu_ri_policy_audit.ipynb
-
-# Run individual figure scripts
-python figure_scripts/figure_5_1c_mixed_status_corrected.py
-
-# Run full validation suite
-python validation/validation_suite.py
 ```
+
+Core Python dependencies used by the analysis include pandas, NumPy, SciPy, scikit-learn and Matplotlib. The Zenodo record should be treated as the stable archive for replication materials and associated data.
 
 ---
 
-## Requirements
+## Policy relevance
 
-```
-pandas>=2.0.0
-numpy>=1.26.0
-scipy>=1.11.0
-scikit-learn>=1.3.0
-matplotlib>=3.7.0
-sedia-api-fetchers>=1.0.0
-tqdm>=4.65.0
-```
+The project focuses on a broader institutional question: **how should the EU evaluate strategic technology partnerships when place of establishment, beneficial ownership, voting control, capability transfer and supply-chain dependence point in different directions?**
 
----
+The final policy brief proposes four areas for consideration:
 
-## Key Methodological Notes
-
-### Country-Code Correction (Section 4.2.2)
-SEDIA's numeric country codes were initially mis-mapped. Correction derived from participant-level address data:
-- `20000915` → Ireland (not Israel)
-- `20001031` → Ukraine (not Slovakia)
-
-Corrected counts: **Israel = 2,474 | Ukraine = 523**
-
-### TF-IDF Baseline Corpus (Section 4.5.2 / Appendix A)
-EU normative baseline: verbatim text from three official EU documents (1,878 tokens). No manual keyword selection. Full text in thesis Appendix A.
-
-### Proxy Entity Detection (Section 4.3.1)
-Two confirmed Israeli proxy entities in EDF (source: FRS/DG DEFIS Report No.19, April 2025):
-- **Intracom Defense AE** (Athens, GR) — 94.5% IAI-owned since May 2023
-- **Optronic Instruments & Products N.V.** (Ghent, BE) — Elbit Systems subsidiary
+1. clarify criteria for Horizon Europe research-security restrictions;
+2. increase transparency around EDF Article 9 third-country-control guarantees;
+3. establish standing parliamentary review of security-relevant R&I partnerships; and
+4. require cross-horizon assessment of both capability gains and dependency risks before strategic technology partnerships are renewed.
 
 ---
 
 ## Citation
 
-```bibtex
-@mastersthesis{gyuler2026,
-  author    = {Gyuler, Elif},
-  title     = {The Self-Defeating Dependency Trap: How Technological Reliance 
-               Constrains EU Normative Power in Research Funding to 
-               Israel and Ukraine, 2014--2026},
-  school    = {Utrecht University},
-  year      = {2026},
-  type      = {Master Thesis, Applied Data Science},
-  doi       = {10.5281/zenodo.XXXXXXX}
-}
-```
+If you use the replication materials, please cite the archived project record:
+
+> Gyuler, Elif (2026). *EU R&I Policy Audit: research and defence funding to Israel and Ukraine, 2014–2026*. Zenodo. https://doi.org/10.5281/zenodo.21084273
+
+For the policy brief, cite the title shown in `POLICY_BRIEF.md`.
 
 ---
 
-## Related Work
+## License and independence
 
-- Swarts, J. (2025). *Green Rhetoric Meets Hard Data: Detecting Strategic Discourse Drift in Horizon Europe Climate Projects.* Master Thesis, Applied Data Science, Utrecht University. [Uses same sedia-api-fetchers pipeline]
-- Farrand, B. & Carrapico, H. (2022). Digital sovereignty and taking back control. *European Security*, 31(3), 435–453.
-- Manners, I. (2002). Normative Power Europe. *Journal of Common Market Studies*, 40(2), 235–258.
+Repository code is released under the [MIT License](LICENSE). Data and text may be subject to separate source or archive terms; consult the associated Zenodo record and original data sources before redistribution.
 
----
-
-## License
-
-Code: [MIT License](LICENSE)  
-Data: [Creative Commons CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)  
-Thesis text: © Elif Gyuler, Utrecht University, 2026
+This is independent academic research and does not represent the position of Utrecht University or any EU institution.
 
 ---
 
 ## Contact
 
-Elif Gyuler — Utrecht University, Applied Data Science  
-GitHub: [@elifgyuler](https://github.com/elifgyuler)
-
-
-
-# eu-ri-policy-audit
-Replication code and data for "The Self-Defeating Dependency Trap" (Utrecht University, 2026)
+**Elif Gyuler**  
+GitHub: [@ElifGyuler](https://github.com/ElifGyuler)
